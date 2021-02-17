@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
 
   gem.add_dependency "git"
-  gem.add_dependency "kindlegen", "~> 2.3"
+  gem.add_dependency "kindlegen"
   gem.add_dependency "nokogiri",  "~> 1.5"
   gem.add_dependency "sass", "~> 3.1"
 
