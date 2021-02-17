@@ -3,7 +3,7 @@ PATH
   specs:
     wordsmith (0.0.6)
       git
-      kindlegen (~> 2.3)
+      kindlegen
       nokogiri (~> 1.5)
       sass (~> 3.1)
 
@@ -11,7 +11,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     git (1.2.6)
-    kindlegen (2.8.0)
+    kindlegen
       systemu
     mini_portile (0.5.2)
     nokogiri (1.6.1)
