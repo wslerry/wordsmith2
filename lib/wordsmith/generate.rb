@@ -11,8 +11,8 @@ class Wordsmith
 
       run_callback("before_all")
       content_dir = local(File.join("content"))
-      @files = Dir.glob(content_dir + "/**/*.*").sort.join(" ")
-      info "List of markdown file: \n#{files}"
+      @files = Dir.glob("#{content_dir}" + "/**/*.md").sort.join(" ^\n")
+
       if files.empty?
         raise "Exiting.. Nothing to generate in #{content_dir}." +
           "\nHave you run 'wordsmith new'?"
@@ -58,10 +58,10 @@ class Wordsmith
       compile_stylesheets
       copy_assets
 
-      cmd = "pandoc --from=markdown_mmd -s -S --toc -o #{File.join(output, "index.html")} -t html"
-      stylesheets.each { |stylesheet| cmd += " -c #{stylesheet}" }
-      cmd += " -B #{header}" if header
-      cmd += " -A #{footer}" if footer
+      cmd = "pandoc --from=markdown_mmd -s -S --toc -o \"#{File.join(output, "index.html")}\" -t html ^\n"
+      stylesheets.each { |stylesheet| cmd += "-c \"#{stylesheet}\" ^\n" }
+      cmd += "-B \"#{header}\" ^\n" if header
+      cmd += "-A \"#{footer}\"" if footer
       cmd += " #{files}"
       cmd
       info "\n#{cmd}"
@@ -72,11 +72,11 @@ class Wordsmith
 
       build_metadata_xml
 
-      cmd = "pandoc --from=markdown_mmd -S -o #{output}.epub -t epub"
-      cmd += " --epub-metadata=#{metadata}" if metadata
-      cmd += " --epub-cover-image=#{cover}" if cover
-      cmd += " --epub-stylesheet=#{epub_stylesheet}" if epub_stylesheet
-      cmd += " #{files}"
+      cmd = "pandoc --from=markdown_mmd -S -o \"#{output}.epub\" -t epub ^\n"
+      cmd += "--epub-metadata=#{metadata} ^\n" if metadata
+      cmd += "--epub-cover-image=#{cover} ^\n" if cover
+      cmd += "--epub-stylesheet=#{epub_stylesheet} ^\n" if epub_stylesheet
+      cmd += "#{files}"
       cmd
       info "\n#{cmd}"
     end
@@ -107,9 +107,10 @@ class Wordsmith
         end
       end
 
-      cmd = "pandoc --from=markdown_mmd -N --toc -o #{output}.pdf #{files}"
-      cmd += " --latex-engine=#{engine}" unless engine.empty?
-      cmd += " -V mainfont='#{config['font']}'" unless (config.fetch('font', '')).empty?
+      cmd = "pandoc --from=markdown_mmd -N --toc -o \"#{output}.pdf\" ^\n"
+      cmd += "#{files} ^\n"
+      cmd += "--latex-engine=#{engine} ^\n" unless engine.empty?
+      cmd += "-V mainfont='#{config['font']}' ^\n" unless (config.fetch('font', '')).empty?
       cmd
       info "\n#{cmd}"
     end
