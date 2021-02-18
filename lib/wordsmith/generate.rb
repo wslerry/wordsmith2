@@ -61,7 +61,7 @@ class Wordsmith
       cmd = "pandoc --from=markdown_mmd -s -S --toc -o \"#{File.join(output, "index.html")}\" -t html ^\n"
       stylesheets.each { |stylesheet| cmd += "-c \"#{stylesheet}\" ^\n" }
       cmd += "-B \"#{header}\" ^\n" if header
-      cmd += "-A \"#{footer}\"" if footer
+      cmd += "-A \"#{footer}\" ^\n" if footer
       cmd += " #{files}"
       cmd
       info "\n#{cmd}"
@@ -95,7 +95,7 @@ class Wordsmith
 
       engine = ""
 
-      ["lualatex", ["xetex", "xelatex"], ["pdftex", "pdflatex"]].each do |e|
+      [["xetex", "xelatex"], ["pdftex", "pdflatex"], "lualatex"].each do |e|
         if e.is_a? Array
           cmd, name = e
         else
@@ -109,7 +109,7 @@ class Wordsmith
 
       cmd = "pandoc --from=markdown_mmd -N --toc -o \"#{output}.pdf\" ^\n"
       cmd += "#{files} ^\n"
-      cmd += "--latex-engine=#{engine} ^\n" unless engine.empty?
+      cmd += "--pdf-engine=#{engine} ^\n" unless engine.empty?
       cmd += "-V mainfont='#{config['font']}' ^\n" unless (config.fetch('font', '')).empty?
       cmd
       info "\n#{cmd}"
